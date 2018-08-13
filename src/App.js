@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import TodoInput from "./components/TodoInput";
-import Footer from "./components/Footer";
+import TodoBoard from "./components/TodoBoard";
+import TodoFooter from "./components/TodoFooter";
 
 class App extends Component {
     constructor(){
@@ -13,10 +13,8 @@ class App extends Component {
                 <h1 id="title">todos</h1>
                 <section className="section-todo">
                     <div className="todoapp" id="todoapp">
-                        <header className="header">
-                            <TodoInput handleAdd={(value) => this.handleAddProcessing(value)}/>
-                        </header>
-                        <Footer/>
+                        <TodoBoard handleAdd={(value) => this.handleAddProcessing(value)}/>
+
                     </div>
                 </section>
                 <footer className="info">

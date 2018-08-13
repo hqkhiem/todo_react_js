@@ -1,26 +1,34 @@
 import React, {Component} from 'react';
 
 class Todo extends Component {
-    constructor(){
+    constructor() {
         super();
-        this.clickToggle = this.clickToggle.bind(this);
+        this.state = {
+            showDelete : false
+        }
     }
 
-
-    clickToggle(){
+    clickToggle = () => {
         this.props.checkComplete(this.props.todo.id);
     }
 
+    clickDelete = () => {
+        this.props.deleteTodo(this.props.todo.id)
+    }
+
     render() {
+        let isComplete = (this.props.todo.status) ? "list-group-item completed" : "list-group-item ";
+
         return (
-            <li id={this.props.todo.id} className="list-group-item">
-                <div className="view">
-                    <input className="toggle" type="checkbox" onClick={() => this.clickToggle()}/>
-                    <input className="destroy" type="button" defaultValue="x"/>
-                    <label className="todo-text">
-                        <p className="edit-todo">{this.props.todo.value}</p>
-                    </label>
-                </div>
+            <li id={this.props.todo.id} className={isComplete} onMouseOver={() => this.setState({ showDelete : true})} onMouseLeave={() => this.setState({ showDelete : false})}>
+                <input className="toggle" type="checkbox" onClick={() => this.clickToggle()}
+                       checked={this.props.todo.status}/>
+                {
+                    this.state.showDelete ? <input className="destroy" type="button" defaultValue="x" onClick={() => this.clickDelete()}/> : ""
+                }
+                <label className="todo-text">
+                    <p className="edit-todo">{this.props.todo.value}</p>
+                </label>
             </li>
         );
     }
