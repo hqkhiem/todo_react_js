@@ -13,7 +13,7 @@ body{
   font-size: 24px;
   padding-right: 10px;
   margin-left: 50px;
-  max-width: stretch;
+  width: -webkit-fill-available;
 }
 
 
@@ -100,10 +100,6 @@ body{
   margin-left: 45px;
   padding-left: 10px;
   padding-right: 10px;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  /*width: 80%;*/
-  /*width: -webkit-fill-available;*/
 }
 
 
@@ -198,7 +194,7 @@ li {
   color: #e6e6e6;
 }
 
-li[class='list-group-item completed'] label {
+li[class='list-group-item completed'] [class="todo-text"] {
   color: #d9d9d9;
   text-decoration: line-through;
 }
@@ -221,7 +217,12 @@ a[href="#/"]:hover, a[href="#/completed"]:hover, a[href="#/active"]:hover, .clea
   display: none;
 }
 
-.edit-todo{
-  margin: 0px 0px;
-  /*width: -webkit-fill-available;*/
+
+input[class="todo-text edit"] {
+    margin: 0px 0px;
+    width: -webkit-fill-available;
+}
+
+label[class="todo-text"] {
+    width: -webkit-fill-available;
 }

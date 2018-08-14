@@ -2,20 +2,20 @@ import React, {Component} from 'react';
 
 class TodoFooter extends Component {
 
-    clickFilterAll = () => {
+    clickFilterAll(){
         this.props.filterAll();
     };
 
-    clickFilterActive = () => {
+    clickFilterActive(){
         this.props.filterActive();
     };
 
-    clickFilterComplete = () => {
+    clickFilterComplete(){
         this.props.filterComplete();
     };
 
 
-    clickClearComplete= () =>{
+    clickClearComplete(){
         this.props.clearComplete();
     };
 
