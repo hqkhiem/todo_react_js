@@ -13,7 +13,7 @@ body{
   font-size: 24px;
   padding-right: 10px;
   margin-left: 50px;
-  width: -webkit-fill-available;
+  max-width: stretch;
 }
 
 
@@ -103,7 +103,7 @@ body{
   padding-top: 15px;
   padding-bottom: 15px;
   /*width: 80%;*/
-  width: -webkit-fill-available;
+  /*width: -webkit-fill-available;*/
 }
 
 
@@ -194,10 +194,6 @@ li {
   font-style: italic;
 }
 
-/*For Opera:*/
-.new-todo:-o-input-placeholder {
-  font-style: italic;
-}
 ::placeholder {
   color: #e6e6e6;
 }
@@ -227,5 +223,5 @@ a[href="#/"]:hover, a[href="#/completed"]:hover, a[href="#/active"]:hover, .clea
 
 .edit-todo{
   margin: 0px 0px;
-  width: -webkit-fill-available;
+  /*width: -webkit-fill-available;*/
 }

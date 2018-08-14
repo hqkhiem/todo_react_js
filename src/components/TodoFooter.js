@@ -14,26 +14,44 @@ class TodoFooter extends Component {
         this.props.filterComplete();
     };
 
+
+    clickClearComplete= () =>{
+        this.props.clearComplete();
+    };
+
     render() {
         let leftTodos = this.props.todos.filter((todo) => {
             return !todo.status
         });
 
+        let filterAllButton = (this.props.filter === 0) ?
+            <a href="#/" className="selected" onClick={() => this.clickFilterAll()}>All</a> :
+            <a href="#/" onClick={() => this.clickFilterAll()}>All</a>;
+
+        let filterActiveButton = (this.props.filter === 1) ?
+            <a href="#/" className="selected" onClick={() => this.clickFilterAll()}>Active</a> :
+            <a href="#/" onClick={() => this.clickFilterActive()}>Active</a>
+
+        let filterCompleteButton = (this.props.filter === 2) ?
+            <a href="#/" className="selected" onClick={() => this.clickFilterAll()}>Complete</a> :
+            <a href="#/" onClick={() => this.clickFilterComplete()}>Complete</a>
+
         return (
             <footer className="footer" id="footer">
                 <div>
-                    <span className="todo-count"><strong id="todo-count-number">{leftTodos.length}</strong> item left</span>
-                    <button className="clear-completed" onClick="Todo.clearCompleteTodo()">Clear completed
+                    <span className="todo-count"><strong
+                        id="todo-count-number">{leftTodos.length}</strong> item left</span>
+                    <button className="clear-completed" onClick={() => this.clickClearComplete()}>Clear completed
                     </button>
                     <ul className="filters">
                         <li>
-                            <a href="#/" className="selected" onClick={() => this.clickFilterAll()}>All</a>
+                            {filterAllButton}
                         </li>
                         <li>
-                            <a href="#/active" onClick={() => this.clickFilterActive()}>Active</a>
+                            {filterActiveButton}
                         </li>
                         <li>
-                            <a href="#/completed" onClick={() => this.clickFilterComplete()}>Completed</a>
+                            {filterCompleteButton}
                         </li>
                     </ul>
                 </div>

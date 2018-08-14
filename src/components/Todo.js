@@ -21,7 +21,7 @@ class Todo extends Component {
 
         return (
             <li id={this.props.todo.id} className={isComplete} onMouseOver={() => this.setState({ showDelete : true})} onMouseLeave={() => this.setState({ showDelete : false})}>
-                <input className="toggle" type="checkbox" onClick={() => this.clickToggle()}
+                <input className="toggle" type="checkbox" onChange={() => this.clickToggle()}
                        checked={this.props.todo.status}/>
                 {
                     this.state.showDelete ? <input className="destroy" type="button" defaultValue="x" onClick={() => this.clickDelete()}/> : ""

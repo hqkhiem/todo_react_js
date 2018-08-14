@@ -7,48 +7,45 @@ class TodoBoard extends Component {
         super();
         this.state = {
             todos : [],
-            filter : 0
+            filter : 0,
+            isSelecttedAll : false,
+            firstLoad : true
         };
         this.textInput = React.createRef();
     }
 
     handleKeyPressEnter = (event) => {
         if (event.key === "Enter" && this.textInput.current.value.trim() !== "") {
-            let newTodos = this.state.todos.slice();
             let todo = {
                 id : new Date().getTime(),
                 value : this.textInput.current.value,
                 status : false
             }
-            newTodos.push(todo);
+            this.state.todos.push(todo);
             this.setState({
-                todos : newTodos
+                todos : this.state.todos
             });
         }
-    }
+    };
 
     checkCompleteProcessing(id){
-        console.log("Event: " + id);
-        let todosCopy = JSON.parse(JSON.stringify(this.state.todos));
+        let newTodos = [...this.state.todos];
         let index = this.state.todos.findIndex((temp) => {
             return temp.id === id;
         });
-        todosCopy[index].status = !todosCopy[index].status;
+        newTodos[index].status = !this.state.todos[index].status;
         this.setState({
-            todos : todosCopy
+            todos : newTodos
         });
-        console.log(todosCopy);
     }
 
     deleteProcessing(id){
-        console.log("Event: " + id);
-        let todosCopy = JSON.parse(JSON.stringify(this.state.todos));
         let index = this.state.todos.findIndex((temp) => {
             return temp.id === id;
         });
-        todosCopy.splice(index, 1);
+        this.state.todos.splice(index, 1)
         this.setState({
-            todos : todosCopy
+            todos : this.state.todos
         });
     }
 
@@ -70,11 +67,37 @@ class TodoBoard extends Component {
         });
     }
 
+    clearCompleteProcessing(){
+        this.setState({
+            todos : this.state.todos.filter(todo => {
+                return !todo.status;
+            })
+        });
+    }
+
+    clickAllComplete(){
+        let isSelected = !this.state.isSelecttedAll;
+        let newTodos = [...this.state.todos];
+        newTodos.forEach((todo) => {
+            todo.status = isSelected;
+        })
+        this.setState({
+            todos : newTodos,
+            isSelecttedAll : isSelected
+        });
+    }
+
     componentDidUpdate(){
-        this.textInput.current.value = "";
+        this.textInput.current.value = '';
     }
 
     render() {
+        let todos = this.state.todos;
+        if (localStorage.getItem("todo") !== null){
+            let oldState = JSON.parse(localStorage.getItem("todo"));
+            todos = oldState.todos;
+        }
+        localStorage.setItem("todo" , JSON.stringify(this.state));
         let todosResult = null;
         if (this.state.filter === 0){
             todosResult = this.state.todos;
@@ -87,22 +110,25 @@ class TodoBoard extends Component {
                 return todo.status
             });
         }
+
         let renderListTodo = todosResult.map((todo, index) => {
             return <Todo key={index} todo={todo} checkComplete={(value) => this.checkCompleteProcessing(value)} deleteTodo={(value) => this.deleteProcessing(value)}/>;
         });
+
         return (
             <ul className="list-group" id="list-group">
                 <div className="list-group-item">
-                    <input className="toggle-all" type="checkbox"/>
-                    <input type="text" className="new-todo" id="new-todo"
-                           placeholder="What needs to be done?" onKeyPress={this.handleKeyPressEnter} ref={this.textInput}/>
+                    <input className="toggle-all" type="checkbox" onChange={() => this.clickAllComplete()} checked={this.state.isSelecttedAll}/>
+                    <input type="text" className="new-todo" id="new-todo" placeholder="What needs to be done?"
+                           onKeyPress={this.handleKeyPressEnter} ref={this.textInput}/>
                 </div>
                 {renderListTodo}
-                <TodoFooter todos={this.state.todos}
+                <TodoFooter todos={todos}
                             filterAll={() => this.filterAllProcessing()}
                             filterActive={() => this.filterActiveProcessing()}
                             filterComplete={() => this.filterCompleteProcessing()}
                             filter={this.state.filter}
+                            clearComplete={() => this.clearCompleteProcessing()}
                 />
             </ul>
         );
